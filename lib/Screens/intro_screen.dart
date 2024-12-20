@@ -2,7 +2,7 @@
 
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
-import 'package:demo_project/Screens/signIn_page.dart';
+import 'package:demo_project/Screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
