@@ -11,15 +11,13 @@ import '../Helper/preferances.dart';
 import '../Screens/currency_selection.dart';
 
 class LoginController extends GetxController {
-  TextEditingController emailcontroller =
-      TextEditingController(text: "admin@gmail.com");
+  TextEditingController emailcontroller = TextEditingController();
   TextEditingController passcontroller = TextEditingController();
   RxBool isLoader = false.obs;
   RxBool obsecure = false.obs;
 
   Future<http.Response> userLogin() async {
     isLoader.value = true;
-    // Map data = {"email": "admin@gmail.com", "password": "admin@123"};
     Map data = {
       "email": emailcontroller.text.trim(),
       "password": passcontroller.text.trim(),
@@ -29,6 +27,9 @@ class LoginController extends GetxController {
 
     final response = await http.post(
       Uri.parse(BASE_URL.baseUrl + API_END_POINTS.login),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
       body: jsonEncode(data),
     );
     print(response.body);
