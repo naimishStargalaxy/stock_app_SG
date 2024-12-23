@@ -18,18 +18,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String saveCurrency = "";
-  String fromCurrency = "";
-  String toCurrency = "";
 
   DataGet() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
       saveCurrency = pref.getString("saveCurrency") ?? "";
-      fromCurrency = pref.getString("fromCurrency") ?? "";
-      toCurrency = pref.getString("toCurrency") ?? "";
+
       print(saveCurrency);
-      print(fromCurrency);
-      print(toCurrency);
     });
   }
 

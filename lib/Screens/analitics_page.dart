@@ -44,156 +44,129 @@ class AnaliticsPageState extends State<AnaliticsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _forexDataController.livesStockDataApi(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (_forexDataController
-              .loadAlldata!.timeSeriesFx5Min.isEmpty) {
-            return Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 10),
-                decoration: BoxDecoration(
-                    color: Colors.grey.shade500,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Center(
-                  child: Text(
-                    "No Data Found",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ));
-          }
-          return Scaffold(
-              backgroundColor: DarkAppColor.bgColor,
-              appBar: AppBar(
-                backgroundColor: DarkAppColor.bgColor,
-                surfaceTintColor: Colors.transparent,
-                title: CommonWidget().textWidget(
-                  text: "${saveCurrency} Analytics",
-                  textColor: DarkAppColor.primaryColor,
-                  textSize: 22.0,
-                  textWeight: FontWeight.w500,
+    return Scaffold(
+        backgroundColor: DarkAppColor.bgColor,
+        appBar: AppBar(
+          backgroundColor: DarkAppColor.bgColor,
+          surfaceTintColor: Colors.transparent,
+          title: CommonWidget().textWidget(
+            text: "${saveCurrency} Analytics",
+            textColor: DarkAppColor.primaryColor,
+            textSize: 22.0,
+            textWeight: FontWeight.w500,
+          ),
+        ),
+        body: Stack(
+          children: [
+            SizedBox(
+              height: Get.height * 0.82,
+              child: SfCartesianChart(
+                plotAreaBackgroundColor: DarkAppColor.bgColor,
+                borderColor: DarkAppColor.bgColor,
+                trackballBehavior: _trackballBehavior,
+                zoomPanBehavior: ZoomPanBehavior(
+                  enablePinching: true,
+                  zoomMode: ZoomMode.x,
+                  enablePanning: true,
+                  maximumZoomLevel: 0.3,
                 ),
-              ),
-              body: Stack(
-                children: [
-                  SizedBox(
-                    height: Get.height * 0.82,
-                    child: SfCartesianChart(
-                      plotAreaBackgroundColor: DarkAppColor.bgColor,
-                      borderColor: DarkAppColor.bgColor,
-                      trackballBehavior: _trackballBehavior,
-                      zoomPanBehavior: ZoomPanBehavior(
-                        enablePinching: true,
-                        zoomMode: ZoomMode.x,
-                        enablePanning: true,
-                        maximumZoomLevel: 0.3,
-                      ),
-                      series: <CandleSeries>[
-                        CandleSeries<ChartSampleData, DateTime>(
-                          dataSource: _chartData,
-                          enableSolidCandles: true,
-                          name: '$saveCurrency',
-                          xValueMapper: (ChartSampleData sales, _) => sales.x,
-                          lowValueMapper: (ChartSampleData sales, _) =>
-                              sales.low,
-                          highValueMapper: (ChartSampleData sales, _) =>
-                              sales.high,
-                          openValueMapper: (ChartSampleData sales, _) =>
-                              sales.open,
-                          closeValueMapper: (ChartSampleData sales, _) =>
-                              sales.close,
-                        ),
-                      ],
-                      plotAreaBorderColor: Colors.transparent,
-                      primaryXAxis: DateTimeAxis(
-                          interval: 1,
-                          autoScrollingMode: AutoScrollingMode.start,
-                          axisLine: AxisLine(
-                              width: 1, color: DarkAppColor.softgreyColor),
-                          dateFormat: DateFormat.MMM(),
-                          initialVisibleMinimum: DateTime(2016, 08, 15),
-                          borderColor: DarkAppColor.bgColor,
-                          majorGridLines: MajorGridLines(width: 0)),
-                      primaryYAxis: NumericAxis(
-                        minimum: 85,
-                        interval: 5,
-                        numberFormat: NumberFormat.compact(),
-                        majorGridLines: MajorGridLines(
-                            width: 0.5,
-                            color: DarkAppColor.softgreyColor.withOpacity(.7)),
-                        axisLine: AxisLine(
-                            width: 1, color: DarkAppColor.softgreyColor),
-                        opposedPosition: true,
-                        plotBands: [
-                          PlotBand(
-                            start: 101,
-                            end: 101,
-                            shouldRenderAboveSeries: false,
-                            borderColor: Colors.blueAccent,
-                            text: "101.0",
-                            verticalTextAlignment: TextAnchor.end,
-                            horizontalTextAlignment: TextAnchor.end,
-                            horizontalTextPadding: "-15",
-                            verticalTextPadding: "5",
-                            textStyle:
-                                TextStyle(color: DarkAppColor.primaryColor),
-                            borderWidth: 2,
-                          )
-                        ],
-                        borderColor: DarkAppColor.bgColor,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 30,
-                    width: Get.width * 0.4,
-                    margin: EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                        color: DarkAppColor.bgColor,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: DarkAppColor.softgreyColor)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CommonWidget().textWidget(
-                            text: "1M",
-                            textWeight: FontWeight.w700,
-                            textColor: DarkAppColor.primaryColor),
-                        Container(
-                          width: 1,
-                          height: 25,
-                          color: DarkAppColor.softgreyColor,
-                        ),
-                        CommonWidget().textWidget(
-                            text: "6M",
-                            textWeight: FontWeight.w700,
-                            textColor: DarkAppColor.primaryColor),
-                        Container(
-                          width: 1,
-                          height: 25,
-                          color: DarkAppColor.softgreyColor,
-                        ),
-                        CommonWidget().textWidget(
-                            text: "1Y",
-                            textWeight: FontWeight.w700,
-                            textColor: DarkAppColor.primaryColor),
-                        Container(
-                          width: 1,
-                          height: 25,
-                          color: DarkAppColor.softgreyColor,
-                        ),
-                        CommonWidget().textWidget(
-                            text: "ALL",
-                            textWeight: FontWeight.w700,
-                            textColor: DarkAppColor.primaryColor),
-                      ],
-                    ),
+                series: <CandleSeries>[
+                  CandleSeries<ChartSampleData, DateTime>(
+                    dataSource: _chartData,
+                    enableSolidCandles: true,
+                    name: '$saveCurrency',
+                    xValueMapper: (ChartSampleData sales, _) => sales.x,
+                    lowValueMapper: (ChartSampleData sales, _) => sales.low,
+                    highValueMapper: (ChartSampleData sales, _) => sales.high,
+                    openValueMapper: (ChartSampleData sales, _) => sales.open,
+                    closeValueMapper: (ChartSampleData sales, _) => sales.close,
                   ),
                 ],
-              ));
-        });
+                plotAreaBorderColor: Colors.transparent,
+                primaryXAxis: DateTimeAxis(
+                    interval: 1,
+                    autoScrollingMode: AutoScrollingMode.start,
+                    axisLine:
+                        AxisLine(width: 1, color: DarkAppColor.softgreyColor),
+                    dateFormat: DateFormat.MMM(),
+                    initialVisibleMinimum: DateTime(2016, 08, 15),
+                    borderColor: DarkAppColor.bgColor,
+                    majorGridLines: MajorGridLines(width: 0)),
+                primaryYAxis: NumericAxis(
+                  minimum: 85,
+                  interval: 5,
+                  numberFormat: NumberFormat.compact(),
+                  majorGridLines: MajorGridLines(
+                      width: 0.5,
+                      color: DarkAppColor.softgreyColor.withOpacity(.7)),
+                  axisLine:
+                      AxisLine(width: 1, color: DarkAppColor.softgreyColor),
+                  opposedPosition: true,
+                  plotBands: [
+                    PlotBand(
+                      start: 101,
+                      end: 101,
+                      shouldRenderAboveSeries: false,
+                      borderColor: Colors.blueAccent,
+                      text: "101.0",
+                      verticalTextAlignment: TextAnchor.end,
+                      horizontalTextAlignment: TextAnchor.end,
+                      horizontalTextPadding: "-15",
+                      verticalTextPadding: "5",
+                      textStyle: TextStyle(color: DarkAppColor.primaryColor),
+                      borderWidth: 2,
+                    )
+                  ],
+                  borderColor: DarkAppColor.bgColor,
+                ),
+              ),
+            ),
+            Container(
+              height: 30,
+              width: Get.width * 0.4,
+              margin: EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                  color: DarkAppColor.bgColor,
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: DarkAppColor.softgreyColor)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CommonWidget().textWidget(
+                      text: "1M",
+                      textWeight: FontWeight.w700,
+                      textColor: DarkAppColor.primaryColor),
+                  Container(
+                    width: 1,
+                    height: 25,
+                    color: DarkAppColor.softgreyColor,
+                  ),
+                  CommonWidget().textWidget(
+                      text: "6M",
+                      textWeight: FontWeight.w700,
+                      textColor: DarkAppColor.primaryColor),
+                  Container(
+                    width: 1,
+                    height: 25,
+                    color: DarkAppColor.softgreyColor,
+                  ),
+                  CommonWidget().textWidget(
+                      text: "1Y",
+                      textWeight: FontWeight.w700,
+                      textColor: DarkAppColor.primaryColor),
+                  Container(
+                    width: 1,
+                    height: 25,
+                    color: DarkAppColor.softgreyColor,
+                  ),
+                  CommonWidget().textWidget(
+                      text: "ALL",
+                      textWeight: FontWeight.w700,
+                      textColor: DarkAppColor.primaryColor),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }
