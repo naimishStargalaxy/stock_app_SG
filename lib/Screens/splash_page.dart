@@ -7,6 +7,7 @@ import 'package:demo_project/Helper/utility.dart';
 import 'package:demo_project/Screens/bottom_nav_bar.dart';
 import 'package:demo_project/Screens/intro_screen.dart';
 import 'package:demo_project/Screens/login_page.dart';
+import 'package:demo_project/Screens/signup_page.dart';
 import 'package:flutter/material.dart';
 
 import '../Helper/preferances.dart';
@@ -31,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
             builder: (BuildContext context) => IntroScreens()));
       } else if (isIntroduction == true && isCurrencyLoaded == false) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => SigninPage()));
+            MaterialPageRoute(builder: (BuildContext context) => SignupPage()));
       } else if (isIntroduction == true && isCurrencyLoaded == true) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) => PersistenBottomNavBarDemo()));

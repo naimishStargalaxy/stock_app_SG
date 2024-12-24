@@ -2,9 +2,8 @@
 
 import 'package:demo_project/Controllers/login_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
-import 'package:demo_project/Helper/preferances.dart';
 import 'package:demo_project/Helper/utility.dart';
-import 'package:demo_project/Screens/currency_selection.dart';
+import 'package:demo_project/Screens/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -97,7 +96,21 @@ class SigninPage extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 50,
+              height: 20,
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => SignupPage());
+              },
+              child: CommonWidget().textWidget(
+                text: "Create A New Account",
+                textColor: DarkAppColor.primaryColor,
+                textSize: 12.0,
+                textWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(
+              height: 20,
             ),
             Obx(
               () => _loginController.isLoader.value

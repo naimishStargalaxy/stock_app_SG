@@ -1,8 +1,6 @@
 // ignore_for_file: unnecessary_overrides, avoid_print
 
-import 'dart:convert';
 import 'dart:developer';
-import 'package:demo_project/Data-Model/forex_data_model.dart';
 import 'package:demo_project/Helper/apis.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
