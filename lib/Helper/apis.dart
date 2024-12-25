@@ -3,6 +3,7 @@ class BASE_URL {
 }
 
 class API_END_POINTS {
+  static const String register = "customer-reg";
   static const String login = "login";
   static const String trade = "trade";
   static const String updateUser = "update-user/";

@@ -1,26 +1,15 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unused_field, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unused_field, prefer_final_fields, use_key_in_widget_constructors, must_be_immutable, unnecessary_string_interpolations
 
+import 'package:demo_project/Controllers/auth_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
-import 'package:demo_project/Helper/preferances.dart';
 import 'package:demo_project/Helper/utility.dart';
-import 'package:demo_project/Screens/currency_selection.dart';
 import 'package:demo_project/Screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
-
-  @override
-  State<SignupPage> createState() => _SignupPageState();
-}
-
-class _SignupPageState extends State<SignupPage> {
-  TextEditingController _emailcontroller = TextEditingController();
-  TextEditingController _passcontroller = TextEditingController();
-  TextEditingController _namecontroller = TextEditingController();
-  TextEditingController _phonecontroller = TextEditingController();
+class SignupPage extends StatelessWidget {
+  AuthController _authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                   borderRadius: BorderRadius.circular(25)),
               child: TextFormField(
                 style: TextStyle(color: DarkAppColor.primaryColor),
-                controller: _namecontroller,
+                controller: _authController.namecontroller,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 15),
                     border: InputBorder.none,
@@ -84,7 +73,9 @@ class _SignupPageState extends State<SignupPage> {
                   borderRadius: BorderRadius.circular(25)),
               child: InternationalPhoneNumberInput(
                 onInputChanged: (PhoneNumber number) {
-                  print(number.phoneNumber);
+                  _authController.countryCode.value = number.dialCode!;
+                  _authController.final_number.value =
+                      "${number.dialCode!} ${_authController.phonecontroller.text}";
                 },
                 onInputValidated: (bool value) {
                   print(value);
@@ -96,13 +87,14 @@ class _SignupPageState extends State<SignupPage> {
                     hintStyle: TextStyle(color: DarkAppColor.primaryColor)),
                 selectorConfig: SelectorConfig(
                   selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                  leadingPadding: 0,
                   useBottomSheetSafeArea: true,
                 ),
+                initialValue: PhoneNumber(isoCode: 'IN'),
                 ignoreBlank: false,
                 autoValidateMode: AutovalidateMode.disabled,
                 selectorTextStyle: TextStyle(color: Colors.white),
-                textFieldController: _phonecontroller,
-                formatInput: true,
+                textFieldController: _authController.phonecontroller,
                 keyboardType: TextInputType.numberWithOptions(
                     signed: true, decimal: true),
                 onSaved: (PhoneNumber number) {
@@ -123,7 +115,7 @@ class _SignupPageState extends State<SignupPage> {
                   borderRadius: BorderRadius.circular(25)),
               child: TextFormField(
                 style: TextStyle(color: DarkAppColor.primaryColor),
-                controller: _emailcontroller,
+                controller: _authController.emailcontroller,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 15),
                     border: InputBorder.none,
@@ -137,26 +129,38 @@ class _SignupPageState extends State<SignupPage> {
             SizedBox(
               height: 20,
             ),
-            Container(
-              width: Get.width,
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: DarkAppColor.softgreyColor,
-                  ),
-                  borderRadius: BorderRadius.circular(25)),
-              child: TextFormField(
-                style: TextStyle(color: DarkAppColor.primaryColor),
-                controller: _passcontroller,
-                obscureText: true,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                    border: InputBorder.none,
-                    hintStyle: TextStyle(
-                      color: DarkAppColor.primaryColor,
+            Obx(
+              () => Container(
+                width: Get.width,
+                margin: EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: DarkAppColor.softgreyColor,
                     ),
-                    hintText: "Enter Password",
-                    floatingLabelBehavior: FloatingLabelBehavior.auto),
+                    borderRadius: BorderRadius.circular(25)),
+                child: TextFormField(
+                  style: TextStyle(color: DarkAppColor.primaryColor),
+                  textAlignVertical: TextAlignVertical(y: 0),
+                  controller: _authController.passcontroller,
+                  obscureText: _authController.obsecure.value,
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                        color: DarkAppColor.primaryColor,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: _authController.obsecure.value
+                            ? Icon(Icons.remove_red_eye_outlined)
+                            : Icon(Icons.remove_red_eye),
+                        onPressed: () {
+                          _authController.obsecure.value =
+                              !_authController.obsecure.value;
+                        },
+                      ),
+                      hintText: "Enter Password",
+                      floatingLabelBehavior: FloatingLabelBehavior.auto),
+                ),
               ),
             ),
             SizedBox(
@@ -176,28 +180,32 @@ class _SignupPageState extends State<SignupPage> {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    side:
-                        BorderSide(color: DarkAppColor.primaryColor, width: 2)),
-                onPressed: () {
-                  if (_emailcontroller.text.isEmpty ||
-                      _passcontroller.text.isEmpty ||
-                      _namecontroller.text.isEmpty) {
-                    CommonWidget().toast(
-                        toastMsg: "Please Add Data", toastColor: Colors.red);
-                  } else {
-                    Preference.preference.saveBool(
-                        PrefernceKey.isIntroductionScreenLoaded, true);
-                    Get.offAll(() => CurrencySelectionPage());
-                  }
-                },
-                child: CommonWidget().textWidget(
-                  text: "Save",
-                  textColor: DarkAppColor.primaryColor,
-                  textWeight: FontWeight.w600,
-                ))
+            Obx(
+              () => _authController.isLoader.value
+                  ? CircularProgressIndicator()
+                  : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          side: BorderSide(
+                              color: DarkAppColor.primaryColor, width: 2)),
+                      onPressed: () {
+                        if (_authController.emailcontroller.text.isEmpty ||
+                            _authController.passcontroller.text.isEmpty ||
+                            _authController.phonecontroller.text.isEmpty ||
+                            _authController.namecontroller.text.isEmpty) {
+                          CommonWidget().toast(
+                              toastMsg: "Please Add Data",
+                              toastColor: Colors.red);
+                        } else {
+                          _authController.userRegister();
+                        }
+                      },
+                      child: CommonWidget().textWidget(
+                        text: "Save",
+                        textColor: DarkAppColor.primaryColor,
+                        textWeight: FontWeight.w600,
+                      )),
+            )
           ],
         ),
       ),

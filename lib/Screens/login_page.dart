@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unused_field, prefer_final_fields, use_key_in_widget_constructors, must_be_immutable
 
-import 'package:demo_project/Controllers/login_controller.dart';
+import 'package:demo_project/Controllers/auth_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
 import 'package:demo_project/Screens/signup_page.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SigninPage extends StatelessWidget {
-  LoginController _loginController = Get.put(LoginController());
+  AuthController _authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class SigninPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25)),
               child: TextFormField(
                 style: TextStyle(color: DarkAppColor.primaryColor),
-                controller: _loginController.emailcontroller,
+                controller: _authController.emailcontroller,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 15),
                     border: InputBorder.none,
@@ -73,8 +73,8 @@ class SigninPage extends StatelessWidget {
                 child: TextFormField(
                   style: TextStyle(color: DarkAppColor.primaryColor),
                   textAlignVertical: TextAlignVertical(y: 0),
-                  controller: _loginController.passcontroller,
-                  obscureText: _loginController.obsecure.value,
+                  controller: _authController.passcontroller,
+                  obscureText: _authController.obsecure.value,
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 15),
                       border: InputBorder.none,
@@ -82,12 +82,12 @@ class SigninPage extends StatelessWidget {
                         color: DarkAppColor.primaryColor,
                       ),
                       suffixIcon: IconButton(
-                        icon: _loginController.obsecure.value
+                        icon: _authController.obsecure.value
                             ? Icon(Icons.remove_red_eye_outlined)
                             : Icon(Icons.remove_red_eye),
                         onPressed: () {
-                          _loginController.obsecure.value =
-                              !_loginController.obsecure.value;
+                          _authController.obsecure.value =
+                              !_authController.obsecure.value;
                         },
                       ),
                       hintText: "Enter Password",
@@ -113,7 +113,7 @@ class SigninPage extends StatelessWidget {
               height: 20,
             ),
             Obx(
-              () => _loginController.isLoader.value
+              () => _authController.isLoader.value
                   ? CircularProgressIndicator()
                   : ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -121,13 +121,13 @@ class SigninPage extends StatelessWidget {
                           side: BorderSide(
                               color: DarkAppColor.primaryColor, width: 2)),
                       onPressed: () {
-                        if (_loginController.emailcontroller.text.isEmpty ||
-                            _loginController.passcontroller.text.isEmpty) {
+                        if (_authController.emailcontroller.text.isEmpty ||
+                            _authController.passcontroller.text.isEmpty) {
                           CommonWidget().toast(
                               toastMsg: "Please Add Data",
                               toastColor: Colors.red);
                         } else {
-                          _loginController.userLogin();
+                          _authController.userLogin();
                         }
                       },
                       child: CommonWidget().textWidget(
