@@ -1,5 +1,6 @@
 // ignore_for_file: prefer__ructors, prefer__literals_to_create_immutables, non_ant_identifier_names, avoid_print, unnecessary_brace_in_string_interps, prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field, sort_child_properties_last, use_key_in_widget_constructors, must_be_immutable
 
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:demo_project/Controllers/home_controller.dart';
@@ -9,10 +10,12 @@ import 'package:demo_project/Helper/utility.dart';
 import 'package:demo_project/Screens/setting_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   HomeController _homeController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -52,7 +55,8 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.only(right: 15),
               child: CircleAvatar(
                 child: CommonWidget().textWidget(
-                  text: _homeController.userName.value[0].toString(),
+                  text:
+                      _homeController.userName.value.split("").first.toString(),
                   textSize: 20.0,
                   textWeight: FontWeight.w600,
                 ),
@@ -81,7 +85,7 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        width: Get.width * 0.8,
+                        width: Get.width * 0.75,
                         decoration: BoxDecoration(
                             color: DarkAppColor.softgreyColor.withOpacity(.4),
                             border: Border.all(
@@ -89,6 +93,7 @@ class HomePage extends StatelessWidget {
                                     DarkAppColor.primaryColor.withOpacity(.7)),
                             borderRadius: BorderRadius.circular(15)),
                         child: TextFormField(
+                          // onChanged: _homeController.searchfilter,
                           decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.symmetric(horizontal: 10),
@@ -128,7 +133,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: 220,
                     child: ListView.builder(
-                      itemCount: 5,
+                      itemCount: _homeController.valuesData.length,
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
                       scrollDirection: Axis.horizontal,
@@ -138,7 +143,13 @@ class HomePage extends StatelessWidget {
                             CommonWidget()
                                 .toast(toastMsg: "Tap On ${index + 1}");
                           },
-                          child: currencyPairWidget(),
+                          child: currencyPairWidget(
+                            name: _homeController.valuesData[index]
+                                ["instrument"],
+                            value: _homeController.valuesData[index]["values"]
+                                    [3]
+                                .toString(),
+                          ),
                         );
                       },
                     ),
@@ -327,7 +338,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget currencyPairWidget() {
+  Widget currencyPairWidget({name, value}) {
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(10),
@@ -347,7 +358,7 @@ class HomePage extends StatelessWidget {
               ),
               SizedBox(width: 10),
               CommonWidget().textWidget(
-                text: "USD to INR",
+                text: name,
                 textSize: 15.0,
                 textColor: DarkAppColor.primaryColor,
                 textWeight: FontWeight.w500,
@@ -356,7 +367,7 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 8),
           CommonWidget().textWidget(
-            text: "83.2540 INR",
+            text: value,
             textSize: 17.0,
             textColor: DarkAppColor.primaryColor,
             textWeight: FontWeight.w500,
@@ -586,8 +597,8 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            height: 80,
-            width: Get.width * 0.2,
+            height: 70,
+            width: 70,
             decoration: BoxDecoration(
                 color: DarkAppColor.primaryColor,
                 image: DecorationImage(
@@ -600,7 +611,7 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: Get.width * 0.6,
+                width: Get.width * 0.55,
                 child: CommonWidget().textWidget(
                   text:
                       "EUR/USD: Euro on the Brink of Hitting Strongest Level in 14 Months. Big Resistance Ahead",
@@ -618,21 +629,21 @@ class HomePage extends StatelessWidget {
                   CommonWidget().textWidget(
                     text: "USD/INR",
                     textColor: Colors.white54,
-                    textSize: 14.0,
+                    textSize: 12.0,
                     textWeight: FontWeight.w500,
                   ),
                   SizedBox(width: 10),
                   CommonWidget().textWidget(
                     text: "^ 0.17%",
                     textColor: DarkAppColor.greenColor,
-                    textSize: 16.0,
+                    textSize: 14.0,
                     textWeight: FontWeight.w500,
                   ),
                   SizedBox(width: 10),
                   CommonWidget().textWidget(
                     text: "11 Minutes Ago",
                     textColor: Colors.white54,
-                    textSize: 14.0,
+                    textSize: 12.0,
                     textWeight: FontWeight.w500,
                   ),
                 ],

@@ -10,6 +10,7 @@ import 'package:demo_project/Screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helper/utility.dart';
@@ -24,6 +25,8 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   AuthController _controller = Get.put(AuthController());
   ProfileController _profileController = Get.put(ProfileController());
+
+  final InAppReview inAppReview = InAppReview.instance;
   showAlertDialog(BuildContext context) {
     Widget cancelButton = TextButton(
       child: Text(
@@ -150,40 +153,15 @@ class _SettingPageState extends State<SettingPage> {
               size: 20,
             ),
           ),
-          // Divider(
-          //   indent: 15,
-          //   endIndent: 15,
-          // ),
-          // ListTile(
-          //   onTap: () {
-          //     Get.to(() => LanguagePage());
-          //   },
-          //   leading: Icon(
-          //     Icons.language,
-          //     color: DarkAppColor.primaryColor,
-          //     size: 30,
-          //   ),
-          //   title: CommonWidget().textWidget(
-          //     text: "Language",
-          //     textColor: DarkAppColor.primaryColor,
-          //     textSize: 18.0,
-          //     textWeight: FontWeight.w500,
-          //   ),
-          //   trailing: Icon(
-          //     Icons.arrow_forward_ios,
-          //     size: 20,
-          //   ),
-          // ),
+
           Divider(
             indent: 15,
             endIndent: 15,
           ),
           ListTile(
             onTap: () {
-              CommonWidget().toast(
-                toastMsg: "This feature add soon",
-                toastColor: Colors.blue,
-              );
+              inAppReview.openStoreListing(
+                  microsoftStoreId: 'com.example.demo_project');
             },
             leading: Icon(
               Icons.share,
@@ -268,10 +246,6 @@ class _SettingPageState extends State<SettingPage> {
             ),
             onTap: () {
               Get.to(() => PrivacyPolicyPage());
-              // CommonWidget().toast(
-              //   toastMsg: "This feature add soon",
-              //   toastColor: Colors.blue,
-              // );
             },
             title: CommonWidget().textWidget(
               text: "Privacy Policy",
@@ -346,14 +320,8 @@ class _SettingPageState extends State<SettingPage> {
             },
             title: CommonWidget().textWidget(
               text: "Log Out",
-              textColor: DarkAppColor.primaryColor,
-              textSize: 18.0,
-              textWeight: FontWeight.w500,
-            ),
-            subtitle: CommonWidget().textWidget(
-              text: "naimish123@gmail.com",
               textColor: DarkAppColor.redColor,
-              textSize: 14.0,
+              textSize: 18.0,
               textWeight: FontWeight.w500,
             ),
           ),
