@@ -1,5 +1,8 @@
-// ignore_for_file: prefer__ructors, prefer__literals_to_create_immutables, non_ant_identifier_names, avoid_print, unnecessary_brace_in_string_interps, prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer__ructors, prefer__literals_to_create_immutables, non_ant_identifier_names, avoid_print, unnecessary_brace_in_string_interps, prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field, sort_child_properties_last, use_key_in_widget_constructors, must_be_immutable
 
+import 'dart:math';
+
+import 'package:demo_project/Controllers/home_controller.dart';
 import 'package:demo_project/Data-Model/currency_data.dart';
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
@@ -7,313 +10,244 @@ import 'package:demo_project/Screens/setting_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  String saveCurrency = "";
-
-  DataGet() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      saveCurrency = pref.getString("saveCurrency") ?? "";
-
-      print(saveCurrency);
-    });
-  }
-
-  @override
-  void initState() {
-    DataGet();
-    super.initState();
-  }
-
+class HomePage extends StatelessWidget {
+  HomeController _homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: DarkAppColor.bgColor,
-      appBar: AppBar(
-        surfaceTintColor: Colors.transparent,
+    return Obx(
+      () => Scaffold(
         backgroundColor: DarkAppColor.bgColor,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CommonWidget().textWidget(
-              text: "Naimish",
-              textColor: DarkAppColor.primaryColor,
-              textSize: 20.0,
-              textWeight: FontWeight.w500,
-            ),
-            CommonWidget().textWidget(
-              text: "Welcome to ForEX",
-              textColor: DarkAppColor.primaryColor.withOpacity(.5),
-              textSize: 16.0,
-              textWeight: FontWeight.w400,
+        appBar: AppBar(
+          surfaceTintColor: Colors.transparent,
+          backgroundColor: DarkAppColor.bgColor,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CommonWidget().textWidget(
+                text: _homeController.userName.value,
+                textColor: DarkAppColor.primaryColor,
+                textSize: 20.0,
+                textWeight: FontWeight.w500,
+              ),
+              CommonWidget().textWidget(
+                text: "Welcome to ForEX",
+                textColor: DarkAppColor.primaryColor.withOpacity(.5),
+                textSize: 16.0,
+                textWeight: FontWeight.w400,
+              ),
+            ],
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Get.to(SettingPage());
+                },
+                icon: Icon(
+                  Icons.settings,
+                  color: DarkAppColor.primaryColor,
+                  size: 30,
+                )),
+            Padding(
+              padding: EdgeInsets.only(right: 15),
+              child: CircleAvatar(
+                child: CommonWidget().textWidget(
+                  text: _homeController.userName.value[0].toString(),
+                  textSize: 20.0,
+                  textWeight: FontWeight.w600,
+                ),
+                backgroundColor:
+                    Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
+                        .withOpacity(.8),
+              ),
             ),
           ],
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.to(SettingPage());
-              },
-              icon: Icon(
-                Icons.settings,
-                color: DarkAppColor.primaryColor,
-                size: 30,
-              )),
-          Padding(
-            padding: EdgeInsets.only(right: 15),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://www.shutterstock.com/image-vector/man-character-face-avatar-glasses-600nw-542759665.jpg"),
-            ),
-          ),
-        ],
-      ),
-      body: Container(
-        height: Get.height,
-        width: Get.width,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/bg.jpg"),
-          fit: BoxFit.cover,
-        )),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              children: [
-                SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: Get.width * 0.8,
-                      decoration: BoxDecoration(
-                          color: DarkAppColor.softgreyColor.withOpacity(.4),
-                          border: Border.all(
-                              color: DarkAppColor.primaryColor.withOpacity(.7)),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 10),
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                              color: DarkAppColor.primaryColor,
-                            ),
-                            hintText: "Search"),
+        body: Container(
+          height: Get.height,
+          width: Get.width,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage("assets/bg.jpg"),
+            fit: BoxFit.cover,
+          )),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                children: [
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: Get.width * 0.8,
+                        decoration: BoxDecoration(
+                            color: DarkAppColor.softgreyColor.withOpacity(.4),
+                            border: Border.all(
+                                color:
+                                    DarkAppColor.primaryColor.withOpacity(.7)),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 10),
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                color: DarkAppColor.primaryColor,
+                              ),
+                              hintText: "Search"),
+                        ),
                       ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.search),
+                        color: DarkAppColor.primaryColor,
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CommonWidget().textWidget(
+                        text: "Currency Pairs",
+                        textColor: DarkAppColor.primaryColor,
+                        textSize: 18.0,
+                        textWeight: FontWeight.w700,
+                      ),
+                      CommonWidget().textWidget(
+                        text: "View All",
+                        textColor: DarkAppColor.primaryColor,
+                        textSize: 12.0,
+                        textWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    height: 220,
+                    child: ListView.builder(
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            CommonWidget()
+                                .toast(toastMsg: "Tap On ${index + 1}");
+                          },
+                          child: currencyPairWidget(),
+                        );
+                      },
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.search),
-                      color: DarkAppColor.primaryColor,
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CommonWidget().textWidget(
-                      text: "Currency Pairs",
-                      textColor: DarkAppColor.primaryColor,
-                      textSize: 18.0,
-                      textWeight: FontWeight.w700,
-                    ),
-                    CommonWidget().textWidget(
-                      text: "View All",
-                      textColor: DarkAppColor.primaryColor,
-                      textSize: 12.0,
-                      textWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                SizedBox(
-                  height: 220,
-                  child: ListView.builder(
-                    itemCount: 5,
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CommonWidget().textWidget(
+                        text: "Majors",
+                        textColor: DarkAppColor.primaryColor,
+                        textSize: 18.0,
+                        textWeight: FontWeight.w700,
+                      ),
+                      CommonWidget().textWidget(
+                        text: "View All",
+                        textColor: DarkAppColor.primaryColor,
+                        textSize: 12.0,
+                        textWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  GridView.builder(
+                    itemCount: currencyData.length.bitLength,
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
-                    scrollDirection: Axis.horizontal,
+                    physics: ClampingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
                           CommonWidget().toast(toastMsg: "Tap On ${index + 1}");
                         },
-                        child: currencyPairWidget(),
+                        child: majorWidget(
+                            currency: currencyData[index].currency.toString(),
+                            imageSource: NetworkImage(currencyData[index]
+                                        .image ==
+                                    ""
+                                ? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                                : currencyData[index].image.toString()),
+                            currencyName:
+                                currencyData[index].currencyName.toString(),
+                            textColor: index.isEven
+                                ? DarkAppColor.redColor
+                                : DarkAppColor.greenColor,
+                            borderColor: index.isEven
+                                ? DarkAppColor.redColor
+                                : DarkAppColor.greenColor),
+                      );
+                    },
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisExtent: 80,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CommonWidget().textWidget(
+                        text: "Currencies Indices",
+                        textColor: DarkAppColor.primaryColor,
+                        textSize: 18.0,
+                        textWeight: FontWeight.w700,
+                      ),
+                      CommonWidget().textWidget(
+                        text: "View All",
+                        textColor: DarkAppColor.primaryColor,
+                        textSize: 12.0,
+                        textWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  ListView.builder(
+                    itemCount: 4,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    physics: ClampingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          CommonWidget().toast(toastMsg: "Tap On ${index + 1}");
+                        },
+                        child: currencyIndices(
+                          textColor: index.isEven
+                              ? DarkAppColor.greenColor
+                              : DarkAppColor.redColor,
+                        ),
                       );
                     },
                   ),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CommonWidget().textWidget(
-                      text: "Majors",
-                      textColor: DarkAppColor.primaryColor,
-                      textSize: 18.0,
-                      textWeight: FontWeight.w700,
-                    ),
-                    CommonWidget().textWidget(
-                      text: "View All",
-                      textColor: DarkAppColor.primaryColor,
-                      textSize: 12.0,
-                      textWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                GridView.builder(
-                  itemCount: currencyData.length.bitLength,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: ClampingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        CommonWidget().toast(toastMsg: "Tap On ${index + 1}");
-                      },
-                      child: majorWidget(
-                          currency: currencyData[index].currency.toString(),
-                          imageSource: NetworkImage(currencyData[index].image ==
-                                  ""
-                              ? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
-                              : currencyData[index].image.toString()),
-                          currencyName:
-                              currencyData[index].currencyName.toString(),
-                          textColor: index.isEven
-                              ? DarkAppColor.redColor
-                              : DarkAppColor.greenColor,
-                          borderColor: index.isEven
-                              ? DarkAppColor.redColor
-                              : DarkAppColor.greenColor),
-                    );
-                  },
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisExtent: 80,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CommonWidget().textWidget(
-                      text: "Currencies Indices",
-                      textColor: DarkAppColor.primaryColor,
-                      textSize: 18.0,
-                      textWeight: FontWeight.w700,
-                    ),
-                    CommonWidget().textWidget(
-                      text: "View All",
-                      textColor: DarkAppColor.primaryColor,
-                      textSize: 12.0,
-                      textWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                ListView.builder(
-                  itemCount: 4,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: ClampingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        CommonWidget().toast(toastMsg: "Tap On ${index + 1}");
-                      },
-                      child: currencyIndices(
-                        textColor: index.isEven
-                            ? DarkAppColor.greenColor
-                            : DarkAppColor.redColor,
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CommonWidget().textWidget(
+                        text: "Top Stories",
+                        textColor: DarkAppColor.primaryColor,
+                        textSize: 18.0,
+                        textWeight: FontWeight.w700,
                       ),
-                    );
-                  },
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CommonWidget().textWidget(
-                      text: "Top Stories",
-                      textColor: DarkAppColor.primaryColor,
-                      textSize: 18.0,
-                      textWeight: FontWeight.w700,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                ListView.builder(
-                  itemCount: 4,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: ClampingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                        onTap: () {
-                          CommonWidget().toast(toastMsg: "Tap On ${index + 1}");
-                        },
-                        child: topStoriesWidget());
-                  },
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CommonWidget().textWidget(
-                      text: "News",
-                      textColor: DarkAppColor.primaryColor,
-                      textSize: 18.0,
-                      textWeight: FontWeight.w700,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                ListView.builder(
-                  itemCount: 4,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: ClampingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                        onTap: () {
-                          CommonWidget().toast(toastMsg: "Tap On ${index + 1}");
-                        },
-                        child: newsWidget());
-                  },
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CommonWidget().textWidget(
-                      text: "Economic Calender",
-                      textColor: DarkAppColor.primaryColor,
-                      textSize: 18.0,
-                      textWeight: FontWeight.w700,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                SizedBox(
-                  height: 130,
-                  child: ListView.builder(
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  ListView.builder(
                     itemCount: 4,
                     shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.zero,
                     physics: ClampingScrollPhysics(),
                     itemBuilder: (context, index) {
@@ -322,12 +256,70 @@ class _HomePageState extends State<HomePage> {
                             CommonWidget()
                                 .toast(toastMsg: "Tap On ${index + 1}");
                           },
-                          child: economicCelenderWidget());
+                          child: topStoriesWidget());
                     },
                   ),
-                ),
-                SizedBox(height: 80)
-              ],
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CommonWidget().textWidget(
+                        text: "News",
+                        textColor: DarkAppColor.primaryColor,
+                        textSize: 18.0,
+                        textWeight: FontWeight.w700,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  ListView.builder(
+                    itemCount: 4,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    physics: ClampingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                            CommonWidget()
+                                .toast(toastMsg: "Tap On ${index + 1}");
+                          },
+                          child: newsWidget());
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CommonWidget().textWidget(
+                        text: "Economic Calender",
+                        textColor: DarkAppColor.primaryColor,
+                        textSize: 18.0,
+                        textWeight: FontWeight.w700,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    height: 130,
+                    child: ListView.builder(
+                      itemCount: 4,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.zero,
+                      physics: ClampingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                            onTap: () {
+                              CommonWidget()
+                                  .toast(toastMsg: "Tap On ${index + 1}");
+                            },
+                            child: economicCelenderWidget());
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 80)
+                ],
+              ),
             ),
           ),
         ),

@@ -1,5 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field
 
+import 'package:demo_project/Controllers/auth_controller.dart';
+import 'package:demo_project/Controllers/profile_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Screens/billing_page.dart';
 import 'package:demo_project/Screens/faq_page.dart';
@@ -20,26 +22,22 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  // ThemeController _controller = Get.put(ThemeController());
+  AuthController _controller = Get.put(AuthController());
+  ProfileController _profileController = Get.put(ProfileController());
   showAlertDialog(BuildContext context) {
     Widget cancelButton = TextButton(
       child: Text(
         "No",
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
+        style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
       ),
       onPressed: () {
         Get.back();
       },
     );
     Widget continueButton = TextButton(
-      style: ButtonStyle(
-          side: WidgetStatePropertyAll(
-              BorderSide(color: DarkAppColor.bgColor, width: 1.5))),
       child: Text(
         "Yes",
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
+        style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
       ),
       onPressed: () async {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -51,13 +49,54 @@ class _SettingPageState extends State<SettingPage> {
     AlertDialog alert = AlertDialog(
       title: Text(
         "Logout",
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),
+        style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w700),
       ),
       content: Text(
         "Are you sure for Logout?",
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
+        style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  deleteShowAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text(
+        "No",
+        style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+      ),
+      onPressed: () {
+        Get.back();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Yes",
+        style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+      ),
+      onPressed: () async {
+        _controller.userDelete(userId: _profileController.userId.value);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text(
+        "Delete Account",
+        style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w700),
+      ),
+      content: Text(
+        "Are you sure for Delete Account?",
+        style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
       ),
       actions: [
         cancelButton,
@@ -270,6 +309,26 @@ class _SettingPageState extends State<SettingPage> {
             trailing: Icon(
               Icons.arrow_forward_ios,
               size: 20,
+            ),
+          ),
+          Divider(
+            indent: 15,
+            endIndent: 15,
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.no_accounts,
+              color: DarkAppColor.primaryColor,
+              size: 30,
+            ),
+            onTap: () {
+              deleteShowAlertDialog(context);
+            },
+            title: CommonWidget().textWidget(
+              text: "Delete Account",
+              textColor: DarkAppColor.redColor,
+              textSize: 18.0,
+              textWeight: FontWeight.w500,
             ),
           ),
           Divider(

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field, must_be_immutable
 
 import 'package:demo_project/Screens/analitics_page.dart';
 import 'package:demo_project/Screens/homepage.dart';

@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field, use_key_in_widget_constructors, must_be_immutable
 
 import 'package:demo_project/Controllers/forex_data_controller.dart';
+import 'package:demo_project/Controllers/home_controller.dart';
+import 'package:demo_project/Controllers/profile_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/preferances.dart';
 import 'package:demo_project/Helper/utility.dart';
@@ -10,6 +12,8 @@ import 'package:get/get.dart';
 
 class CurrencySelectionPage extends StatelessWidget {
   ForexDataController _forexDataController = Get.put(ForexDataController());
+  HomeController _homeController = Get.put(HomeController());
+  ProfileController _profileconntroller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
