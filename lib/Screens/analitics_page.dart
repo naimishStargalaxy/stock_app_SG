@@ -156,51 +156,51 @@ class AnaliticsPageState extends State<AnaliticsPage> {
                 ),
               ),
             ),
-            Container(
-              height: 30,
-              width: Get.width * 0.4,
-              margin: EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(
-                  color: DarkAppColor.bgColor,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: DarkAppColor.softgreyColor)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CommonWidget().textWidget(
-                      text: "1M",
-                      textWeight: FontWeight.w700,
-                      textColor: DarkAppColor.primaryColor),
-                  Container(
-                    width: 1,
-                    height: 25,
-                    color: DarkAppColor.softgreyColor,
-                  ),
-                  CommonWidget().textWidget(
-                      text: "6M",
-                      textWeight: FontWeight.w700,
-                      textColor: DarkAppColor.primaryColor),
-                  Container(
-                    width: 1,
-                    height: 25,
-                    color: DarkAppColor.softgreyColor,
-                  ),
-                  CommonWidget().textWidget(
-                      text: "1Y",
-                      textWeight: FontWeight.w700,
-                      textColor: DarkAppColor.primaryColor),
-                  Container(
-                    width: 1,
-                    height: 25,
-                    color: DarkAppColor.softgreyColor,
-                  ),
-                  CommonWidget().textWidget(
-                      text: "ALL",
-                      textWeight: FontWeight.w700,
-                      textColor: DarkAppColor.primaryColor),
-                ],
-              ),
-            ),
+            // Container(
+            //   height: 30,
+            //   width: Get.width * 0.4,
+            //   margin: EdgeInsets.only(left: 10),
+            //   decoration: BoxDecoration(
+            //       color: DarkAppColor.bgColor,
+            //       borderRadius: BorderRadius.circular(5),
+            //       border: Border.all(color: DarkAppColor.softgreyColor)),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       CommonWidget().textWidget(
+            //           text: "1M",
+            //           textWeight: FontWeight.w700,
+            //           textColor: DarkAppColor.primaryColor),
+            //       Container(
+            //         width: 1,
+            //         height: 25,
+            //         color: DarkAppColor.softgreyColor,
+            //       ),
+            //       CommonWidget().textWidget(
+            //           text: "6M",
+            //           textWeight: FontWeight.w700,
+            //           textColor: DarkAppColor.primaryColor),
+            //       Container(
+            //         width: 1,
+            //         height: 25,
+            //         color: DarkAppColor.softgreyColor,
+            //       ),
+            //       CommonWidget().textWidget(
+            //           text: "1Y",
+            //           textWeight: FontWeight.w700,
+            //           textColor: DarkAppColor.primaryColor),
+            //       Container(
+            //         width: 1,
+            //         height: 25,
+            //         color: DarkAppColor.softgreyColor,
+            //       ),
+            //       CommonWidget().textWidget(
+            //           text: "ALL",
+            //           textWeight: FontWeight.w700,
+            //           textColor: DarkAppColor.primaryColor),
+            //     ],
+            //   ),
+            // ),
           ],
         ));
   }
