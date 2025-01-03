@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 class BASE_URL {
   static const String baseUrl = "http://frxceltrd.com:4004/";
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_string_interpolations, use_super_parameters, prefer_const_constructors_in_immutables, avoid_print, non_constant_identifier_names, prefer_const_constructors, unnecessary_brace_in_string_interps, prefer_final_fields, unused_field
+// ignore_for_file: unnecessary_string_interpolations, use_super_parameters, prefer_const_constructors_in_immutables, avoid_print, non_constant_identifier_names, prefer_const_constructors, unnecessary_brace_in_string_interps, prefer_final_fields, unused_field, deprecated_member_use
 
 import 'package:demo_project/Controllers/forex_data_controller.dart';
 import 'package:demo_project/Controllers/home_controller.dart';

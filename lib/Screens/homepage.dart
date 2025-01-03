@@ -1,8 +1,6 @@
-// ignore_for_file: prefer__ructors, prefer__literals_to_create_immutables, non_ant_identifier_names, avoid_print, unnecessary_brace_in_string_interps, prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field, sort_child_properties_last, use_key_in_widget_constructors, must_be_immutable
+// ignore_for_file: prefer__ructors, prefer__literals_to_create_immutables, non_ant_identifier_names, avoid_print, unnecessary_brace_in_string_interps, prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field, sort_child_properties_last, use_key_in_widget_constructors, must_be_immutable, deprecated_member_use
 
-import 'dart:convert';
 import 'dart:math';
-
 import 'package:demo_project/Controllers/home_controller.dart';
 import 'package:demo_project/Data-Model/currency_data.dart';
 import 'package:demo_project/Helper/common_widget.dart';
@@ -10,7 +8,6 @@ import 'package:demo_project/Helper/utility.dart';
 import 'package:demo_project/Screens/setting_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {

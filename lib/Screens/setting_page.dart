@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field, deprecated_member_use
 
 import 'package:demo_project/Controllers/auth_controller.dart';
 import 'package:demo_project/Controllers/profile_controller.dart';

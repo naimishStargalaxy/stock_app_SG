@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_overrides
+// ignore_for_file: unnecessary_overrides, avoid_print
 
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

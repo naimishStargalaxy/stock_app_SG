@@ -6,7 +6,6 @@ import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
 import 'package:demo_project/Screens/bottom_nav_bar.dart';
 import 'package:demo_project/Screens/intro_screen.dart';
-import 'package:demo_project/Screens/login_page.dart';
 import 'package:demo_project/Screens/signup_page.dart';
 import 'package:flutter/material.dart';
 
