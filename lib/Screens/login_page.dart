@@ -3,6 +3,7 @@
 import 'package:demo_project/Controllers/auth_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
+import 'package:demo_project/Screens/forgot_password_page.dart';
 import 'package:demo_project/Screens/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -92,6 +93,23 @@ class SigninPage extends StatelessWidget {
                       ),
                       hintText: "Enter Password",
                       floatingLabelBehavior: FloatingLabelBehavior.auto),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => ForgotPasswordPage());
+              },
+              child: Align(
+                alignment: Alignment(0.8, 0),
+                child: CommonWidget().textWidget(
+                  text: "Forfot Password",
+                  textColor: DarkAppColor.primaryColor,
+                  textSize: 12.0,
+                  textWeight: FontWeight.w600,
                 ),
               ),
             ),
