@@ -61,25 +61,30 @@ class ForgotPasswordPage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    side:
-                        BorderSide(color: DarkAppColor.primaryColor, width: 2)),
-                onPressed: () {
-                  if (_forgotPasswordController.emailcontroller.text.isEmpty) {
-                    CommonWidget().toast(
-                        toastMsg: "Please Add Data", toastColor: Colors.red);
-                  } else {
-                    CommonWidget().toast(
-                        toastMsg: "Password Changed", toastColor: Colors.green);
-                  }
-                },
-                child: CommonWidget().textWidget(
-                  text: "Save",
-                  textColor: DarkAppColor.primaryColor,
-                  textWeight: FontWeight.w600,
-                )),
+            Obx(
+              () => _forgotPasswordController.isLoader.value
+                  ? CircularProgressIndicator()
+                  : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          side: BorderSide(
+                              color: DarkAppColor.primaryColor, width: 2)),
+                      onPressed: () {
+                        if (_forgotPasswordController
+                            .emailcontroller.text.isEmpty) {
+                          CommonWidget().toast(
+                              toastMsg: "Please Add Data",
+                              toastColor: Colors.red);
+                        } else {
+                          _forgotPasswordController.forgotPassword();
+                        }
+                      },
+                      child: CommonWidget().textWidget(
+                        text: "Send OTP",
+                        textColor: DarkAppColor.primaryColor,
+                        textWeight: FontWeight.w600,
+                      )),
+            )
           ],
         ),
       ),

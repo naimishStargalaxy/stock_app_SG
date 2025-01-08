@@ -10,4 +10,7 @@ class API_END_POINTS {
   static const String trade = "trade";
   static const String updateUser = "update-user/";
   static const String deleteUser = "delete-user/";
+  static const String otpRequest = "requestOtp";
+  static const String otpVerify = "verifyOtp";
+  static const String resetPassword = "resetpassword";
 }
