@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
 import 'package:demo_project/Screens/bottom_nav_bar.dart';
 import 'package:demo_project/Screens/intro_screen.dart';
@@ -48,18 +47,12 @@ class _SplashPageState extends State<SplashPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.stacked_line_chart,
-            size: 50,
-            color: DarkAppColor.primaryColor,
-          ),
           Center(
-              child: CommonWidget().textWidget(
-            text: "App Logo",
-            textColor: DarkAppColor.primaryColor,
-            textWeight: FontWeight.w700,
-            textSize: 25.0,
-          ))
+            child: Image.asset(
+              "assets/fx.png",
+              width: 70,
+            ),
+          )
         ],
       ),
     );

@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 
@@ -6,7 +6,6 @@ import 'package:demo_project/Helper/preferances.dart';
 import 'package:demo_project/Screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import '../Data-Model/response_model.dart';
 import '../Helper/apis.dart';
