@@ -49,6 +49,7 @@ dependencies:
   in_app_review: ^2.0.10
   intl:
   flutter_widget_from_html: ^0.15.3
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -103,3 +104,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_native_splash:
+  color: "#000000"
+  image: "assets/fx.png"

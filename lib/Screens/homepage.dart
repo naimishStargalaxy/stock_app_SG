@@ -9,6 +9,7 @@ import 'package:demo_project/Screens/setting_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
   HomeController _homeController = Get.put(HomeController());
@@ -77,37 +78,37 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 children: [
-                  SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: Get.width * 0.75,
-                        decoration: BoxDecoration(
-                            color: DarkAppColor.softgreyColor.withOpacity(.4),
-                            border: Border.all(
-                                color:
-                                    DarkAppColor.primaryColor.withOpacity(.7)),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextFormField(
-                          // onChanged: _homeController.searchfilter,
-                          decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                color: DarkAppColor.primaryColor,
-                              ),
-                              hintText: "Search"),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.search),
-                        color: DarkAppColor.primaryColor,
-                      )
-                    ],
-                  ),
+                  // SizedBox(height: 15),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Container(
+                  //       width: Get.width * 0.75,
+                  //       decoration: BoxDecoration(
+                  //           color: DarkAppColor.softgreyColor.withOpacity(.4),
+                  //           border: Border.all(
+                  //               color:
+                  //                   DarkAppColor.primaryColor.withOpacity(.7)),
+                  //           borderRadius: BorderRadius.circular(15)),
+                  //       child: TextFormField(
+                  //         // onChanged: _homeController.searchfilter,
+                  //         decoration: InputDecoration(
+                  //             contentPadding:
+                  //                 EdgeInsets.symmetric(horizontal: 10),
+                  //             border: InputBorder.none,
+                  //             hintStyle: TextStyle(
+                  //               color: DarkAppColor.primaryColor,
+                  //             ),
+                  //             hintText: "Search"),
+                  //       ),
+                  //     ),
+                  //     IconButton(
+                  //       onPressed: () {},
+                  //       icon: Icon(Icons.search),
+                  //       color: DarkAppColor.primaryColor,
+                  //     )
+                  //   ],
+                  // ),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -280,18 +281,45 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 10),
-                  ListView.builder(
-                    itemCount: 4,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: ClampingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            CommonWidget()
-                                .toast(toastMsg: "Tap On ${index + 1}");
-                          },
-                          child: newsWidget());
+                  Obx(
+                    () {
+                      if (_homeController.isLoader.value) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+
+                      if (_homeController.calendarEvents.isEmpty) {
+                        return Center(child: Text("No events available."));
+                      }
+                      return ListView.builder(
+                        itemCount: _homeController.newsList.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        physics: ClampingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final reversevents =
+                              _homeController.newsList.reversed.toList();
+                          final event = reversevents[index];
+                          return GestureDetector(
+                              onTap: () {
+                                Get.defaultDialog(
+                                    contentPadding: EdgeInsets.all(5),
+                                    title: event["title"],
+                                    titleStyle: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700),
+                                    middleText: event["snippet"],
+                                    middleTextStyle: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700));
+                              },
+                              child: newsWidget(
+                                image: event["photo_url"] ?? "",
+                                date: event["published_datetime_utc"],
+                                title: event["title"],
+                                snippet: event["snippet"],
+                              ));
+                        },
+                      );
                     },
                   ),
                   SizedBox(height: 10),
@@ -308,23 +336,38 @@ class HomePage extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   SizedBox(
-                    height: 130,
-                    child: ListView.builder(
-                      itemCount: 4,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.zero,
-                      physics: ClampingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () {
-                              CommonWidget()
-                                  .toast(toastMsg: "Tap On ${index + 1}");
-                            },
-                            child: economicCelenderWidget());
-                      },
-                    ),
-                  ),
+                      height: 130,
+                      child: Obx(() {
+                        if (_homeController.isLoader.value) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+
+                        if (_homeController.calendarEvents.isEmpty) {
+                          return Center(child: Text("No events available."));
+                        }
+
+                        return ListView.builder(
+                          itemCount: _homeController.calendarEvents.length,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.zero,
+                          physics: ClampingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final reversevents = _homeController
+                                .calendarEvents.reversed
+                                .toList();
+                            final event = reversevents[index];
+                            return economicCelenderWidget(
+                              country: event['Currency'],
+                              title: event['Name'],
+                              date: event['Date'],
+                              forecast: event['Forecast'] ?? "--",
+                              actual: event['Actual'] ?? "--",
+                              previous: event['Previous'] ?? "--",
+                            );
+                          },
+                        );
+                      })),
                   SizedBox(height: 80)
                 ],
               ),
@@ -652,7 +695,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget newsWidget() {
+  Widget newsWidget({image, date, title, snippet}) {
     return Container(
       width: Get.width,
       padding: EdgeInsets.all(10),
@@ -667,31 +710,39 @@ class HomePage extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                radius: 15,
-                backgroundImage: NetworkImage(
-                    "https://media.istockphoto.com/id/495646866/photo/usa-and-india-flag.jpg?s=612x612&w=0&k=20&c=Ycv-B4rSv3u9dx5a1QaMs9SaL6Z9-9I-8wO1OWd53tY="),
+                radius: 20,
+                backgroundImage: NetworkImage(image),
               ),
               SizedBox(width: 10),
-              CommonWidget().textWidget(
-                text: "Sep 20",
-                textColor: DarkAppColor.primaryColor,
-                textSize: 16.0,
-                textWeight: FontWeight.w500,
-              ),
-              SizedBox(width: 10),
-              CommonWidget().textWidget(
-                text: "- Dow Jues News",
-                textColor: DarkAppColor.primaryColor,
-                textSize: 16.0,
-                textWeight: FontWeight.w500,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: Get.width * 0.7,
+                    child: CommonWidget().textWidget(
+                      text: title,
+                      textmaxLine: 2,
+                      textoverFlow: TextOverflow.ellipsis,
+                      textColor: DarkAppColor.primaryColor,
+                      textSize: 13.0,
+                      textWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  CommonWidget().textWidget(
+                    text: date.toString().split("T").first,
+                    textColor: DarkAppColor.primaryColor.withOpacity(0.5),
+                    textSize: 10.0,
+                    textWeight: FontWeight.w500,
+                  ),
+                ],
               ),
             ],
           ),
           SizedBox(height: 10),
           SizedBox(
             child: CommonWidget().textWidget(
-              text:
-                  "EUR/USD: Euro on the Brink of Hitting Strongest Level in 14 Months. Big Resistance Ahead",
+              text: snippet,
               textmaxLine: 2,
               textoverFlow: TextOverflow.ellipsis,
               textColor: DarkAppColor.primaryColor.withOpacity(.5),
@@ -704,7 +755,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget economicCelenderWidget() {
+  Widget economicCelenderWidget(
+      {country, date, title, actual, forecast, previous}) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       padding: EdgeInsets.all(15),
@@ -719,15 +771,26 @@ class HomePage extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundImage: NetworkImage(
-                    "https://media.istockphoto.com/id/495646866/photo/usa-and-india-flag.jpg?s=612x612&w=0&k=20&c=Ycv-B4rSv3u9dx5a1QaMs9SaL6Z9-9I-8wO1OWd53tY="),
+                child: CommonWidget().textWidget(text: country, textSize: 12.0),
               ),
               SizedBox(width: 10),
-              CommonWidget().textWidget(
-                text: "Continuing Jobless Claims",
-                textSize: 16.0,
-                textColor: DarkAppColor.primaryColor,
-                textWeight: FontWeight.w500,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonWidget().textWidget(
+                    text: title,
+                    textSize: 16.0,
+                    textColor: DarkAppColor.primaryColor,
+                    textWeight: FontWeight.w500,
+                  ),
+                  SizedBox(height: 5),
+                  CommonWidget().textWidget(
+                    text: "Date: ${date.toString().split(" ").first}",
+                    textSize: 10.0,
+                    textColor: DarkAppColor.primaryColor,
+                    textWeight: FontWeight.w500,
+                  ),
+                ],
               ),
             ],
           ),
@@ -740,13 +803,13 @@ class HomePage extends StatelessWidget {
                 Column(
                   children: [
                     CommonWidget().textWidget(
-                      text: "Actuals",
+                      text: "Actual",
                       textSize: 14.0,
                       textColor: DarkAppColor.primaryColor,
                       textWeight: FontWeight.w500,
                     ),
                     CommonWidget().textWidget(
-                      text: "28:15",
+                      text: actual.toString(),
                       textSize: 16.0,
                       textColor: DarkAppColor.primaryColor.withOpacity(.5),
                       textWeight: FontWeight.w500,
@@ -762,7 +825,7 @@ class HomePage extends StatelessWidget {
                       textWeight: FontWeight.w500,
                     ),
                     CommonWidget().textWidget(
-                      text: "-",
+                      text: forecast.toString(),
                       textSize: 16.0,
                       textColor: DarkAppColor.primaryColor.withOpacity(.5),
                       textWeight: FontWeight.w500,
@@ -772,13 +835,13 @@ class HomePage extends StatelessWidget {
                 Column(
                   children: [
                     CommonWidget().textWidget(
-                      text: "Prior",
+                      text: "Previous",
                       textSize: 14.0,
                       textColor: DarkAppColor.primaryColor,
                       textWeight: FontWeight.w500,
                     ),
                     CommonWidget().textWidget(
-                      text: "1,842 K",
+                      text: previous.toString(),
                       textSize: 16.0,
                       textColor: DarkAppColor.primaryColor.withOpacity(.5),
                       textWeight: FontWeight.w500,

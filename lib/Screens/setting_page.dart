@@ -3,7 +3,6 @@
 import 'package:demo_project/Controllers/auth_controller.dart';
 import 'package:demo_project/Controllers/profile_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
-import 'package:demo_project/Screens/billing_page.dart';
 import 'package:demo_project/Screens/faq_page.dart';
 import 'package:demo_project/Screens/privacy_policy_page.dart';
 import 'package:demo_project/Screens/login_page.dart';
@@ -133,31 +132,7 @@ class _SettingPageState extends State<SettingPage> {
       body: Column(
         children: [
           SizedBox(height: 15),
-          ListTile(
-            onTap: () {
-              Get.to(() => BillingPage());
-            },
-            leading: Icon(
-              Icons.payment,
-              color: DarkAppColor.primaryColor,
-              size: 30,
-            ),
-            title: CommonWidget().textWidget(
-              text: "Billing/Payment",
-              textColor: DarkAppColor.primaryColor,
-              textSize: 18.0,
-              textWeight: FontWeight.w500,
-            ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-            ),
-          ),
 
-          Divider(
-            indent: 15,
-            endIndent: 15,
-          ),
           ListTile(
             onTap: () {
               inAppReview.openStoreListing(

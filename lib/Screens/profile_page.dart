@@ -5,7 +5,6 @@ import 'dart:math';
 import 'package:demo_project/Controllers/profile_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
-import 'package:demo_project/Screens/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,19 +25,19 @@ class ProfilePage extends StatelessWidget {
             textSize: 22.0,
             textWeight: FontWeight.w500,
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Get.to(() => EditProfile());
-              },
-              child: CommonWidget().textWidget(
-                text: "Edit Profile",
-                textColor: DarkAppColor.primaryColor,
-                textSize: 16.0,
-                textWeight: FontWeight.w500,
-              ),
-            )
-          ],
+          // actions: [
+          //   TextButton(
+          //     onPressed: () {
+          //       Get.to(() => EditProfile());
+          //     },
+          //     child: CommonWidget().textWidget(
+          //       text: "Edit Profile",
+          //       textColor: DarkAppColor.primaryColor,
+          //       textSize: 16.0,
+          //       textWeight: FontWeight.w500,
+          //     ),
+          //   )
+          // ],
         ),
         body: Container(
           height: Get.height,
