@@ -43,9 +43,6 @@ class HomeController extends GetxController {
     userId.value = pref.getString("userId") ?? "";
     userName.value = pref.getString("userName") ?? "";
     userMobileNumber.value = pref.getString("userMobileNumber") ?? "";
-    print(userId.toString());
-    print(userName.toString());
-    print(userMobileNumber.toString());
   }
 
   Future<List<dynamic>> fetchEconomicCalendar() async {

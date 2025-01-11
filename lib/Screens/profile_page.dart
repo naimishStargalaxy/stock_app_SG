@@ -91,49 +91,49 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 20),
-                Container(
-                  width: Get.width,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: DarkAppColor.primaryColor.withOpacity(.4)),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.card_giftcard_rounded,
-                        size: 25,
-                        color: DarkAppColor.primaryColor,
-                      ),
-                      SizedBox(width: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CommonWidget().textWidget(
-                            text: "Referral Code",
-                            textColor: DarkAppColor.primaryColor,
-                            textSize: 16.0,
-                            textWeight: FontWeight.w500,
-                          ),
-                          SizedBox(
-                            width: Get.width * 0.75,
-                            child: CommonWidget().textWidget(
-                              text:
-                                  "Share Your Friends and get 2% of free stocks",
-                              textColor:
-                                  DarkAppColor.primaryColor.withOpacity(0.7),
-                              textmaxLine: 2,
-                              textoverFlow: TextOverflow.ellipsis,
-                              textSize: 12.0,
-                              textWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
+                // Container(
+                //   width: Get.width,
+                //   padding: EdgeInsets.all(10),
+                //   decoration: BoxDecoration(
+                //       border: Border.all(
+                //           color: DarkAppColor.primaryColor.withOpacity(.4)),
+                //       borderRadius: BorderRadius.circular(10)),
+                //   child: Row(
+                //     children: [
+                //       Icon(
+                //         Icons.card_giftcard_rounded,
+                //         size: 25,
+                //         color: DarkAppColor.primaryColor,
+                //       ),
+                //       SizedBox(width: 15),
+                //       Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           CommonWidget().textWidget(
+                //             text: "Referral Code",
+                //             textColor: DarkAppColor.primaryColor,
+                //             textSize: 16.0,
+                //             textWeight: FontWeight.w500,
+                //           ),
+                //           SizedBox(
+                //             width: Get.width * 0.75,
+                //             child: CommonWidget().textWidget(
+                //               text:
+                //                   "Share Your Friends and get 2% of free stocks",
+                //               textColor:
+                //                   DarkAppColor.primaryColor.withOpacity(0.7),
+                //               textmaxLine: 2,
+                //               textoverFlow: TextOverflow.ellipsis,
+                //               textSize: 12.0,
+                //               textWeight: FontWeight.w400,
+                //             ),
+                //           ),
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(height: 20),
                 Container(
                   width: Get.width,
                   padding: EdgeInsets.all(10),
