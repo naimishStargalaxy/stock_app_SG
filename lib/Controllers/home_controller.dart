@@ -9,10 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   TextEditingController searchController = TextEditingController();
+  final ApiService _apiService = ApiService();
   RxBool isLoader = false.obs;
   RxString userId = "".obs;
   RxString userName = "".obs;
   RxString userMobileNumber = "".obs;
+  var forexRates = {}.obs;
   var calendarEvents = <dynamic>[].obs;
   var newsList = <dynamic>[].obs;
   List valuesData = [];
@@ -22,6 +24,7 @@ class HomeController extends GetxController {
     isLoader.value = true;
     getUserInfo();
     loadJsonData();
+    fetchForexRates();
     fetchEconomicNews();
     fetchEconomicCalendar();
     isLoader.value = false;
@@ -78,6 +81,37 @@ class HomeController extends GetxController {
       return newsList.value;
     } else {
       throw Exception("Failed to load data: ${response.statusCode}");
+    }
+  }
+
+  void fetchForexRates() async {
+    isLoader(true);
+    try {
+      var data = await _apiService.getForexRates();
+      forexRates.value = data;
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      isLoader(false);
+    }
+  }
+}
+
+class ApiService {
+  Future<Map<String, dynamic>> getForexRates() async {
+    final url = Uri.parse(
+        "https://finnhub.io/api/v1/forex/rates?base=USD&token=ct22mr1r01qoprggttbgct22mr1r01qoprggttc0");
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception("Failed to fetch data: ${response.statusCode}");
+      }
+    } catch (e) {
+      throw Exception("Error occurred: $e");
     }
   }
 }
