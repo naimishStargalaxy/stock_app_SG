@@ -18,17 +18,60 @@ class HomeController extends GetxController {
   var calendarEvents = <dynamic>[].obs;
   var newsList = <dynamic>[].obs;
   List valuesData = [];
+  var chartData = <Map<String, dynamic>>[].obs;
 
   @override
   void onInit() {
     isLoader.value = true;
     getUserInfo();
+    fetchChartDatas();
     loadJsonData();
     fetchForexRates();
     fetchEconomicNews();
     fetchEconomicCalendar();
     isLoader.value = false;
     super.onInit();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchChartData() async {
+    final url = Uri.parse("http://frxceltrd.com:4004/json-long-exceldata");
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data is List) {
+          return data
+              .map<Map<String, dynamic>>((item) => item as Map<String, dynamic>)
+              .toList();
+        } else {
+          throw Exception("Unexpected response format");
+        }
+      } else {
+        throw Exception("Failed to fetch data: ${response.statusCode}");
+      }
+    } catch (e) {
+      throw Exception("Error occurred: $e");
+    }
+  }
+
+  void fetchChartDatas() async {
+    isLoader(true);
+    try {
+      var data = await fetchChartData();
+      // Transform API data to suitable format
+      chartData.value = data.map((item) {
+        return {
+          "date": DateTime.parse(item["date"]),
+          "value": item["value"],
+        };
+      }).toList();
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      isLoader(false);
+    }
   }
 
   Future<void> loadJsonData() async {

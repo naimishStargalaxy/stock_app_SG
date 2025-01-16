@@ -5,6 +5,7 @@ import 'package:demo_project/Controllers/home_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
 import 'package:demo_project/Screens/all_currency_page.dart';
+import 'package:demo_project/Screens/chart_page.dart';
 import 'package:demo_project/Screens/setting_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -83,37 +84,39 @@ class HomePage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
                       children: [
-                        // SizedBox(height: 15),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Container(
-                        //       width: Get.width * 0.75,
-                        //       decoration: BoxDecoration(
-                        //           color: DarkAppColor.softgreyColor.withOpacity(.4),
-                        //           border: Border.all(
-                        //               color:
-                        //                   DarkAppColor.primaryColor.withOpacity(.7)),
-                        //           borderRadius: BorderRadius.circular(15)),
-                        //       child: TextFormField(
-                        //         // onChanged: _homeController.searchfilter,
-                        //         decoration: InputDecoration(
-                        //             contentPadding:
-                        //                 EdgeInsets.symmetric(horizontal: 10),
-                        //             border: InputBorder.none,
-                        //             hintStyle: TextStyle(
-                        //               color: DarkAppColor.primaryColor,
-                        //             ),
-                        //             hintText: "Search"),
-                        //       ),
-                        //     ),
-                        //     IconButton(
-                        //       onPressed: () {},
-                        //       icon: Icon(Icons.search),
-                        //       color: DarkAppColor.primaryColor,
-                        //     )
-                        //   ],
-                        // ),
+                        SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: Get.width * 0.75,
+                              decoration: BoxDecoration(
+                                  color: DarkAppColor.softgreyColor
+                                      .withOpacity(.4),
+                                  border: Border.all(
+                                      color: DarkAppColor.primaryColor
+                                          .withOpacity(.7)),
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: TextFormField(
+                                // onChanged: _homeController.searchfilter,
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    border: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: DarkAppColor.primaryColor,
+                                    ),
+                                    hintText: "Search"),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.search),
+                              color: DarkAppColor.primaryColor,
+                            )
+                          ],
+                        ),
                         SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,9 +157,11 @@ class HomePage extends StatelessWidget {
                                       .toast(toastMsg: "Tap On ${index + 1}");
                                 },
                                 child: currencyPairWidget(
-                                  name: "USD${key}",
-                                  value: value.toString(),
-                                ),
+                                    name: "USD${key}",
+                                    value: value.toString(),
+                                    boxBorder: index.isEven
+                                        ? DarkAppColor.greenColor
+                                        : DarkAppColor.redColor),
                               );
                             },
                           ),
@@ -203,9 +208,19 @@ class HomePage extends StatelessWidget {
                                   .elementAt(index);
                               final value =
                                   _homeController.forexRates["quote"][key];
-                              return majorWidget(
-                                currencyName: "USD${key}",
-                                currency: value.toString(),
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(ChartPage(),
+                                      arguments: _homeController
+                                          .forexRates["quote"].keys
+                                          .elementAt(index));
+                                },
+                                child: majorWidget(
+                                    currencyName: "USD${key}",
+                                    currency: value.toString(),
+                                    boxBorder: index.isOdd
+                                        ? DarkAppColor.greenColor
+                                        : DarkAppColor.redColor),
                               );
                             },
                             gridDelegate:
@@ -386,13 +401,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget currencyPairWidget({name, value}) {
+  Widget currencyPairWidget({name, value, boxBorder}) {
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: DarkAppColor.softgreyColor.withOpacity(.4),
-          border: Border.all(color: DarkAppColor.primaryColor.withOpacity(.7)),
+          border: Border.all(color: boxBorder),
           borderRadius: BorderRadius.circular(20)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -406,6 +421,7 @@ class HomePage extends StatelessWidget {
               // ),
               CircleAvatar(
                 radius: 30,
+                backgroundColor: DarkAppColor.bgColor,
                 child: CommonWidget().textWidget(
                   text: name,
                   textSize: 10.0,
@@ -475,18 +491,20 @@ class HomePage extends StatelessWidget {
 
   Widget majorWidget({
     currency,
+    boxBorder,
     currencyName,
   }) {
     return Container(
       decoration: BoxDecoration(
           color: DarkAppColor.softgreyColor.withOpacity(.4),
-          border: Border.all(color: DarkAppColor.primaryColor),
+          border: Border.all(color: boxBorder),
           borderRadius: BorderRadius.circular(15)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           CircleAvatar(
             radius: 25,
+            backgroundColor: DarkAppColor.bgColor,
             child: CommonWidget().textWidget(
               text: currencyName,
               textSize: 8.0,

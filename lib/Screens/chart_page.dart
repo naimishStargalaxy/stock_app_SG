@@ -1,8 +1,6 @@
 // ignore_for_file: unnecessary_string_interpolations, use_super_parameters, prefer_const_constructors_in_immutables, avoid_print, non_constant_identifier_names, prefer_const_constructors, unnecessary_brace_in_string_interps, prefer_final_fields, unused_field, deprecated_member_use
 
 import 'package:demo_project/Controllers/forex_data_controller.dart';
-import 'package:demo_project/Controllers/home_controller.dart';
-import 'package:demo_project/Data-Model/mock_data.dart';
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
 import 'package:flutter/material.dart';
@@ -11,24 +9,20 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class AnaliticsPage extends StatefulWidget {
-  AnaliticsPage({Key? key}) : super(key: key);
+class ChartPage extends StatefulWidget {
+  ChartPage({Key? key}) : super(key: key);
 
   @override
-  AnaliticsPageState createState() => AnaliticsPageState();
+  ChartPageState createState() => ChartPageState();
 }
 
-class AnaliticsPageState extends State<AnaliticsPage> {
+class ChartPageState extends State<ChartPage> {
   ForexDataController _forexDataController = Get.put(ForexDataController());
-  HomeController _homeController = Get.put(HomeController());
-  late List<ChartSampleData> _chartData;
-  late TrackballBehavior _trackballBehavior;
   String saveCurrency = "";
 
   DataGet() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
-      saveCurrency = pref.getString("saveCurrency") ?? "";
+      saveCurrency = Get.arguments;
       print(saveCurrency);
     });
   }
@@ -36,9 +30,7 @@ class AnaliticsPageState extends State<AnaliticsPage> {
   @override
   void initState() {
     DataGet();
-    _chartData = getChartData();
-    _trackballBehavior = TrackballBehavior(
-        enable: true, activationMode: ActivationMode.singleTap);
+
     super.initState();
   }
 
@@ -49,8 +41,10 @@ class AnaliticsPageState extends State<AnaliticsPage> {
         appBar: AppBar(
           backgroundColor: DarkAppColor.bgColor,
           surfaceTintColor: Colors.transparent,
+          automaticallyImplyLeading: true,
+          iconTheme: IconThemeData(color: Colors.white),
           title: CommonWidget().textWidget(
-            text: "${saveCurrency} Analytics",
+            text: "USD${saveCurrency} Analytics",
             textColor: DarkAppColor.primaryColor,
             textSize: 22.0,
             textWeight: FontWeight.w500,
@@ -93,13 +87,13 @@ class AnaliticsPageState extends State<AnaliticsPage> {
                     ),
                   ],
                   primaryXAxis: DateTimeAxis(
-                      intervalType: DateTimeIntervalType.minutes,
+                      intervalType: DateTimeIntervalType.auto,
                       borderColor: DarkAppColor.bgColor,
                       axisLine:
                           AxisLine(width: 1, color: DarkAppColor.softgreyColor),
                       majorGridLines: MajorGridLines(width: 0)),
                   primaryYAxis: NumericAxis(
-                    interval: 1,
+                    interval: 10,
                     numberFormat: NumberFormat.compact(),
                     majorGridLines: MajorGridLines(
                         width: 0.5,
@@ -109,8 +103,8 @@ class AnaliticsPageState extends State<AnaliticsPage> {
                     opposedPosition: true,
                     plotBands: [
                       PlotBand(
-                        start: _homeController.valuesData[2]["values"][6],
-                        end: _homeController.valuesData[2]["values"][3],
+                        // start: _homeController.valuesData[2]["values"][6],
+                        // end: _homeController.valuesData[2]["values"][3],
                         shouldRenderAboveSeries: true,
                         borderColor: Colors.red.withOpacity(.5),
                         color: Colors.red.withOpacity(0.2),
@@ -125,8 +119,8 @@ class AnaliticsPageState extends State<AnaliticsPage> {
                             fontWeight: FontWeight.w700),
                       ),
                       PlotBand(
-                        start: _homeController.valuesData[2]["values"][3],
-                        end: _homeController.valuesData[2]["values"][3],
+                        // start: _homeController.valuesData[2]["values"][3],
+                        // end: _homeController.valuesData[2]["values"][3],
                         shouldRenderAboveSeries: true,
                         color: Colors.transparent,
                         text:
@@ -140,12 +134,13 @@ class AnaliticsPageState extends State<AnaliticsPage> {
                         borderWidth: 2,
                       ),
                       PlotBand(
-                        start: _homeController.valuesData[2]["values"][0],
-                        end: _homeController.valuesData[2]["values"][3],
+                        // start: _homeController.valuesData[2]["values"][0],
+                        // end: _homeController.valuesData[2]["values"][3],
                         shouldRenderAboveSeries: true,
                         borderColor: Colors.green.withOpacity(.5),
                         color: Colors.green.withOpacity(.2),
-                        text: "Target: 0.03314 (3.34%) 331.4, Ammount: 1864.82",
+                        text:
+                            "Target: 0.03314 (3.34%) 331.4,\n Ammount: 1864.82",
                         verticalTextAlignment: TextAnchor.end,
                         horizontalTextAlignment: TextAnchor.middle,
                         verticalTextPadding: "30",
@@ -164,7 +159,7 @@ class AnaliticsPageState extends State<AnaliticsPage> {
               // child: SfCartesianChart(
               //   plotAreaBackgroundColor: DarkAppColor.bgColor,
               //   borderColor: DarkAppColor.bgColor,
-              //   // trackballBehavior: _trackballBehavior,
+              //   trackballBehavior: _trackballBehavior,
               //   zoomPanBehavior: ZoomPanBehavior(
               //     enablePinching: true,
               //     zoomMode: ZoomMode.x,

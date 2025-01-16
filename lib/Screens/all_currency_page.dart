@@ -3,6 +3,7 @@
 import 'package:demo_project/Controllers/home_controller.dart';
 import 'package:demo_project/Helper/common_widget.dart';
 import 'package:demo_project/Helper/utility.dart';
+import 'package:demo_project/Screens/chart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,8 +16,8 @@ class AllCurrencyPage extends StatelessWidget {
       backgroundColor: DarkAppColor.bgColor,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
-        automaticallyImplyLeading: true,
         backgroundColor: DarkAppColor.bgColor,
+        automaticallyImplyLeading: true,
         iconTheme: IconThemeData(color: Colors.white),
         title: CommonWidget().textWidget(
           text: "All Currency Pairs",
@@ -39,9 +40,18 @@ class AllCurrencyPage extends StatelessWidget {
             final key =
                 _homeController.forexRates["quote"].keys.elementAt(index);
             final value = _homeController.forexRates["quote"][key];
-            return majorWidget(
-              currencyName: "USD${key}",
-              currency: value.toString(),
+            return GestureDetector(
+              onTap: () {
+                Get.to(ChartPage(),
+                    arguments: _homeController.forexRates["quote"].keys
+                        .elementAt(index));
+              },
+              child: majorWidget(
+                  currencyName: "USD${key}",
+                  currency: value.toString(),
+                  boxBorder: index.isOdd
+                      ? DarkAppColor.greenColor
+                      : DarkAppColor.redColor),
             );
           },
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -54,14 +64,11 @@ class AllCurrencyPage extends StatelessWidget {
     );
   }
 
-  Widget majorWidget({
-    currency,
-    currencyName,
-  }) {
+  Widget majorWidget({currency, currencyName, boxBorder}) {
     return Container(
       decoration: BoxDecoration(
           color: DarkAppColor.softgreyColor.withOpacity(.4),
-          border: Border.all(color: DarkAppColor.primaryColor),
+          border: Border.all(color: boxBorder),
           borderRadius: BorderRadius.circular(15)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

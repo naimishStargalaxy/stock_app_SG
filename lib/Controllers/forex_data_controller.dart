@@ -11,7 +11,7 @@ class ForexDataController extends GetxController {
   var chartData = <Map<String, dynamic>>[].obs;
   var isLoading = true.obs;
   String symbol = "OANDA:XAU_USD";
-  final String resolution = "1";
+  final String resolution = "30";
   RxInt selectedIndex = 0.obs;
   List tradeList = [
     "EUR_USD",
